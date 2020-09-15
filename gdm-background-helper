@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+
+import dbus
+import dbus.service
+from dbus.mainloop.glib import DBusGMainLoop
+from gi.repository import GLib
+
+import shutil
+from subprocess import call
+
+class GDMBackground(dbus.service.Object):
+
+    default_theme = "/usr/share/gnome-shell/theme/Yaru/gnome-shell-theme.gresource"
+    backup_theme = default_theme + "~"
+
+    def __init__(self, conn=None, object_path=None, bus_name=None):
+        dbus.service.Object.__init__(self, conn, object_path, bus_name)
+
+    @dbus.service.method('xyz.thiggy01.GDMBackground', in_signature='s', out_signature='',
+        sender_keyword='sender', connection_keyword='conn')
+    def SetImage(self, task, sender=None, conn=None):
+        action_id = 'xyz.thiggy01.GDMBackground.SetImage'
+        if self._check_polkit_privilege(sender, conn, action_id):
+            if task == 'backup':
+                shutil.copy(self.default_theme, self.backup_theme)
+            elif task == 'set':
+                shutil.move("/tmp/gdm3/theme/gnome-shell-theme.gresource",
+                    self.default_theme)
+
+    @dbus.service.method('xyz.thiggy01.GDMBackground', in_signature='s', out_signature='',
+        sender_keyword='sender', connection_keyword='conn')
+    def RestoreBackup(self, task, sender=None, conn=None):
+        action_id = 'xyz.thiggy01.GDMBackground.RestoreBackup'
+        if self._check_polkit_privilege(sender, conn, action_id):
+            if task == 'restore':
+                shutil.move(self.backup_theme, self.default_theme)
+
+    @dbus.service.method('xyz.thiggy01.GDMBackground', in_signature='s', out_signature='',
+        sender_keyword='sender', connection_keyword='conn')
+    def RestartGDM(self, action_id, sender=None, conn=None):
+            if self._check_polkit_privilege(sender, conn, action_id):
+                call(['/usr/sbin/service', 'gdm', 'restart'])
+
+    def _check_polkit_privilege(self, sender, conn, action_id):
+        if sender is None and conn is None:
+            return
+
+        self.proxy_dbus = dbus.Interface(conn.get_object('org.freedesktop.DBus',
+            '/org/freedesktop/DBus/Bus', False), 'org.freedesktop.DBus')
+        sender_pid = self.proxy_dbus.GetConnectionUnixProcessID(sender)
+
+        self.proxy_polkit = dbus.Interface(dbus.SystemBus().get_object(
+            'org.freedesktop.PolicyKit1', '/org/freedesktop/PolicyKit1/Authority', False),
+            'org.freedesktop.PolicyKit1.Authority')
+
+        try:
+            (is_auth, is_challenge, details) = self.proxy_polkit.CheckAuthorization(
+                ('unix-process', {'pid': dbus.UInt32(sender_pid, variant_level=1),
+                                  'start-time': dbus.UInt64(0, variant_level=1)}),
+                 action_id, {'':''}, dbus.UInt32(1), 'cancel')
+            if is_auth:
+                return True
+            else:
+                return False
+        except dbus.DBusException as error:
+            self.proxy_polkit.CancelCheckAuthorization('cancel')
+            raise
+
+if __name__ == '__main__':
+    DBusGMainLoop(set_as_default=True)
+    bus = dbus.SystemBus()
+    name = dbus.service.BusName('xyz.thiggy01.GDMBackground', bus)
+    gdm_background_helper = GDMBackground(name, '/xyz/thiggy01/GDMBackground')
+    GLib.MainLoop().run()

@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=GDM Background
+Type=Application
+Icon=/usr/share/icons/Humanity/apps/24/background.svg
+Exec=/usr/local/bin/gdm-background
+StartupWMCLASS=gdm-background

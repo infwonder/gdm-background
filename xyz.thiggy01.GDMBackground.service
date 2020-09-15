@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=xyz.thiggy01.GDMBackground
+Exec=/usr/libexec/gdm-background-helper
+User=root

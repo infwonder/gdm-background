@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC
+ "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+
+<policyconfig>
+    <action id="xyz.thiggy01.GDMBackground.SetImage">
+	<description>Set a GDM background image</description>
+	<message>Authentication is required to set an GDM background image</message>
+	<defaults>
+	    <allow_any>no</allow_any>
+	    <allow_inactive>no</allow_inactive>
+	    <allow_active>auth_admin_keep</allow_active>
+	</defaults>
+    </action>
+
+    <action id="xyz.thiggy01.GDMBackground.RestoreBackup">
+	<description>Restore the default theme from backup file</description>
+	<message>Authentication is required to restore the default theme</message>
+	<defaults>
+	    <allow_any>no</allow_any>
+	    <allow_inactive>no</allow_inactive>
+	    <allow_active>auth_admin_keep</allow_active>
+	</defaults>
+    </action>
+</policyconfig>
