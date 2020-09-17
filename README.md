@@ -19,7 +19,6 @@ You will need the following packages installed in order to compile gdm-backgroun
 * `gcc` - to compile the source code.
 * `libgtk-3-dev` - to be able to compile gtk3 c code.
 * `libpolkit-gobject-1-dev` - to be able to compile polkit c code.
-* `python-3` - to be able run the polkit dbus service.
 
 ## Installation
 After you have all packages mentioned above you may build and install this tool with the following
