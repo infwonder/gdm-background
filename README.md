@@ -42,3 +42,5 @@ will show a successful dialog and will ask if you want to restart the gdm servic
 You can always return to your default Ubuntu purple theme by clicking on the `restore` button and
 it will ask for admin credentials and if you want to restart GDM to apply change.
 
+You can even uninstall it with `sudo make uninstall`.
+
