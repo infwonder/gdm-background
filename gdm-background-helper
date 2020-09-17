@@ -16,7 +16,7 @@ class GDMBackground(dbus.service.Object):
     def __init__(self, conn=None, object_path=None, bus_name=None):
         dbus.service.Object.__init__(self, conn, object_path, bus_name)
 
-    @dbus.service.method('xyz.thiggy01.GDMBackground', in_signature='s', out_signature='',
+    @dbus.service.method('xyz.thiggy01.GDMBackground', in_signature='s', out_signature='b',
         sender_keyword='sender', connection_keyword='conn')
     def SetImage(self, task, sender=None, conn=None):
         action_id = 'xyz.thiggy01.GDMBackground.SetImage'
@@ -24,16 +24,21 @@ class GDMBackground(dbus.service.Object):
             if task == 'backup':
                 shutil.copy(self.default_theme, self.backup_theme)
             elif task == 'set':
-                shutil.move("/tmp/gdm3/theme/gnome-shell-theme.gresource",
-                    self.default_theme)
+                shutil.move("/tmp/gdm3/theme/gnome-shell-theme.gresource", self.default_theme)
+                return True
+        else:
+            return False
 
-    @dbus.service.method('xyz.thiggy01.GDMBackground', in_signature='s', out_signature='',
+    @dbus.service.method('xyz.thiggy01.GDMBackground', in_signature='s', out_signature='b',
         sender_keyword='sender', connection_keyword='conn')
     def RestoreBackup(self, task, sender=None, conn=None):
         action_id = 'xyz.thiggy01.GDMBackground.RestoreBackup'
         if self._check_polkit_privilege(sender, conn, action_id):
             if task == 'restore':
                 shutil.move(self.backup_theme, self.default_theme)
+                return True
+        else:
+            return False
 
     @dbus.service.method('xyz.thiggy01.GDMBackground', in_signature='s', out_signature='',
         sender_keyword='sender', connection_keyword='conn')

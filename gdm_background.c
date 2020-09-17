@@ -210,9 +210,13 @@ on_button_set_clicked (GtkWidget *widget, Data *data_struct)
 
     // Move the edited gresource file to the default theme directory.
     char *compiled_gresource = vector_strcat(work_dir, "gnome-shell-theme.gresource", NULL);
-    if (set_background_image("set") == -1) {
+    int result = set_background_image("set");
+    if (result == -1) {
 	perror("Could not set gresource file");
 	exit(1);
+    } else if (result == 1) {
+	fprintf(stderr, "Operation canceled\n");
+	gtk_widget_set_sensitive(widget, FALSE);
     } else {
 	successful_dialog("set");
 	restart_gdm_dialog("xyz.thiggy01.GDMBackground.SetImage");
@@ -229,9 +233,13 @@ on_button_set_clicked (GtkWidget *widget, Data *data_struct)
 static void
 on_button_restore_clicked (GtkWidget *widget, Data *data_struct)
 {
-    if (restore_backup_theme() == -1) {
+    int result = restore_backup_theme();
+    if (result == -1) {
 	fprintf(stderr, "Error restoring backup file");
 	exit(1);
+    } else if (result == 1) {
+	fprintf(stderr, "Operation canceled\n");
+	gtk_widget_set_sensitive(widget, FALSE);
     } else {
 	successful_dialog("restored");
 	restart_gdm_dialog("xyz.thiggy01.GDMBackground.RestoreBackup");

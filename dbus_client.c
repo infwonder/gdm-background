@@ -23,12 +23,9 @@ int
 set_background_image(const gchar *task)
 {
     GError *error = NULL;
-    GVariant *helper_result;
-
     if (g_strcmp0(task, "backup") == 0) {
-	helper_result = g_dbus_proxy_call_sync(get_proxy_helper(), "SetImage",
-	    g_variant_new("(s)", task), G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION,
-	    -1, NULL, &error);
+	g_dbus_proxy_call_sync(get_proxy_helper(), "SetImage", g_variant_new("(s)", task),
+	G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION, -1, NULL, &error);
 	if (error != NULL) {
 	    g_printerr("Error calling method SetImage \"backup\" on proxy helper: %s\n",
 		error->message);
@@ -36,17 +33,22 @@ set_background_image(const gchar *task)
 	    return -1;
 	}
     } else if (g_strcmp0(task, "set") == 0) {
-	helper_result = g_dbus_proxy_call_sync(get_proxy_helper(), "SetImage",
-	    g_variant_new("(s)", task), G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION,
-	    -1, NULL, &error);
+	GVariant *result = g_dbus_proxy_call_sync(get_proxy_helper(), "SetImage",
+	g_variant_new("(s)", task), G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION,
+	-1, NULL, &error);
 	if (error != NULL) {
 	    g_printerr("Error calling method SetImage \"set\" on proxy helper: %s\n",
 		error->message);
 	    g_error_free(error);
 	    return -1;
 	}
+	GVariant *authorization = g_variant_get_child_value(result, 0);
+	if (!g_variant_get_boolean(authorization)) {
+	    return 1;
+	}
+	g_variant_unref(result);
+	g_variant_unref(authorization);
     }
-    g_variant_unref(helper_result);
     return 0;
 }
 
@@ -54,7 +56,7 @@ int
 restore_backup_theme()
 {
     GError *error = NULL;
-    GVariant *helper_result = g_dbus_proxy_call_sync(get_proxy_helper(), "RestoreBackup",
+    GVariant *result = g_dbus_proxy_call_sync(get_proxy_helper(), "RestoreBackup",
 	g_variant_new("(s)", "restore"), G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION,
 	-1, NULL, &error);
     if (error != NULL) {
@@ -62,7 +64,12 @@ restore_backup_theme()
 	g_error_free(error);
 	return -1;
     }
-    g_variant_unref(helper_result);
+    GVariant *authorization = g_variant_get_child_value(result, 0);
+    if (!g_variant_get_boolean(authorization)) {
+	return 1;
+    }
+    g_variant_unref(result);
+    g_variant_unref(authorization);
     return 0;
 }
 
@@ -70,7 +77,7 @@ int
 restart_gdm_service(const gchar *action_id)
 {
     GError *error = NULL;
-    GVariant *helper_result = g_dbus_proxy_call_sync(get_proxy_helper(), "RestartGDM",
+    GVariant *result = g_dbus_proxy_call_sync(get_proxy_helper(), "RestartGDM",
 	g_variant_new("(s)", action_id), G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION,
 	-1, NULL, &error);
     if (error != NULL) {
@@ -78,8 +85,7 @@ restart_gdm_service(const gchar *action_id)
 	g_error_free(error);
 	return -1;
     }
-
-    g_variant_unref(helper_result);
+    g_variant_unref(result);
     return 0;
 }
 
