@@ -21,9 +21,12 @@ You will need the following packages installed in order to compile gdm-backgroun
 * `libpolkit-gobject-1-dev` - to be able to compile polkit c code.
 
 ## Installation
+
 After you have all packages mentioned above you may build and install this tool with the following
 commands:
 ```
+$ git clone https://github.com/thiggy01/gdm-background
+$ cd gdm-background
 $ make
 $ sudo make install
 ```
