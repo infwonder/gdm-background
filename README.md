@@ -48,4 +48,4 @@ it will ask for admin credentials and if you want to restart GDM to apply change
 You can even uninstall it with `sudo make uninstall`.
 
 ### Demo
-![Demo](https://i.imgur.com/NRHOVk6.gif)
+![Application Demo](https://i.imgur.com/3L0Jmff.gif)
