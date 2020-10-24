@@ -19,7 +19,7 @@ You will need the following packages installed in order to compile gdm-backgroun
 
 * `make` - builder
 * `gcc` - compiler
-* `libglib2.0-dev-bin` - glib library
+* `libglib2.0-dev-bin` - glib2 library
 * `libgtk-3-dev` - gtk3 library
 * `libpolkit-gobject-1-dev` - polkit library
 
