@@ -15,12 +15,13 @@ it at your own risk.
 Unfortunately, you still can't load image files with spaces in its name since I trying to figure out how to work with them in gdk pixbuf. If you are able to help, please, feel free to provide it in the issues section.
 
 ## Dependencies
-You will need the following packages installed in order to compile gdm-background:
+You will need the following packages installed in order to compile gdm-background and use the program:
 
-* `make` - to build the program.
-* `gcc` - to compile the source code.
-* `libgtk-3-dev` - to be able to compile gtk3 c code.
-* `libpolkit-gobject-1-dev` - to be able to compile polkit c code.
+* `make` - builder
+* `gcc` - compiler
+* `libglib2.0-dev-bin` - glib library
+* `libgtk-3-dev` - gtk3 library
+* `libpolkit-gobject-1-dev` - polkit library
 
 ## Installation
 
