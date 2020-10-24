@@ -1,5 +1,5 @@
 # gdm-background
-A simple graphical tool made with GTK3 in C to change the GDM 3 background image of Ubuntu 20.04
+A simple graphical tool made with GTK3 in C to change the GDM3 background image of Ubuntu 20.04
 
 ## Warning
 This tool won't work with older versions of Ubuntu. It was made specifically to work with Ubuntu
@@ -12,7 +12,7 @@ section which tells you about the required packages necessary to build the progr
 I will not be responsible for any damage that may be caused by the use of this software. So, use
 it at your own risk.
 
-Unfortunately, you still can't load image files with spaces in its name since I trying to figure out how to work with them in gdk pixbuf. If you are able to help, please, feel free to provide in the issues section.
+Unfortunately, you still can't load image files with spaces in its name since I trying to figure out how to work with them in gdk pixbuf. If you are able to help, please, feel free to provide it in the issues section.
 
 ## Dependencies
 You will need the following packages installed in order to compile gdm-background:
