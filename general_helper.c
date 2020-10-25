@@ -40,6 +40,33 @@ remove_substring (char *string, const char *substring)
     return string;
 }
 
+char*
+replace_word (const char* string, const char* old_word, const char* new_word)
+{
+    int i, count = 0;
+    int new_word_length = strlen(new_word);
+    int old_word_length = strlen(old_word);
+    for (i = 0; string[i] != '\0'; i++) {
+	if (strstr(&string[i], old_word) == &string[i]) {
+	    count++;
+	    i += old_word_length - 1;
+	}
+    }
+    char *result = malloc(i+count*(new_word_length-old_word_length)+1);
+    i = 0;
+    while (*string) {
+	if (strstr(string, old_word) == string) {
+	    strcpy(&result[i], new_word);
+	    i += new_word_length;
+	    string += old_word_length;
+	}
+	else
+	    result[i++] = *string++;
+    }
+    result[i] = '\0';
+    return result;
+}
+
 char *
 vector_strcat (const char *string1, ...)
 {

@@ -7,6 +7,8 @@ char *remove_trailing_chars (char *string, char from_char);
 
 char *remove_substring (char *string, const char *substring);
 
+char *replace_word (const char *string, const char *old_word, const char *new_word);
+
 char *vector_strcat (const char *string1, ...);
 
 int recursive_mkdir (char *path, unsigned int mode);
