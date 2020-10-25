@@ -257,7 +257,6 @@ on_drag_data_received (GtkWidget *widget, GdkDragContext *context,
     g_string->str[strcspn(g_string->str, "\r\n")] = '\0';
     g_string->str = replace_word(g_string->str, "%20", " ");
     data_struct->image_file = g_string->str;
-    g_print("%s\n", data_struct->image_file);
 
     /* gtk_image_set_from_file(GTK_IMAGE(widget), data_struct->image_file); */
     GError *error = NULL;
