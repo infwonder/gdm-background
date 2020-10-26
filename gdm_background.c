@@ -257,6 +257,7 @@ on_drag_data_received (GtkWidget *widget, GdkDragContext *context,
     g_string->str[strcspn(g_string->str, "\r\n")] = '\0';
     g_string->str = replace_word(g_string->str, "%20", " ");
     data_struct->image_file = g_string->str;
+    g_print("%s\n", data_struct->image_file);
 
     /* gtk_image_set_from_file(GTK_IMAGE(widget), data_struct->image_file); */
     GError *error = NULL;
@@ -283,6 +284,7 @@ main(int argc,gchar *argv[])
     gtk_window_set_default_size(GTK_WINDOW(window), 560, 315);
     gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
     gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+    gtk_window_set_keep_above(GTK_WINDOW(window), TRUE);
 
     GtkWidget *image = gtk_image_new();
     GtkTargetEntry targets[] = {{"text/uri-list", 0, 1}};
