@@ -1,17 +1,21 @@
 #!/usr/bin/env python3
 
+import distro
 import dbus
 import dbus.service
 from dbus.mainloop.glib import DBusGMainLoop
 from gi.repository import GLib
-
 import shutil
 from subprocess import call
 
 class GDMBackground(dbus.service.Object):
 
-    default_theme = "/usr/share/gnome-shell/theme/Yaru/gnome-shell-theme.gresource"
-    backup_theme = default_theme + "~"
+    if distro.id() == 'ubuntu':
+        default_theme = '/usr/share/gnome-shell/theme/Yaru/gnome-shell-theme.gresource'
+    elif distro.id() == 'pop':        
+        default_theme = '/usr/share/gnome-shell/theme/Pop/gnome-shell-theme.gresource'
+    
+    backup_theme = default_theme + '~'
 
     def __init__(self, conn=None, object_path=None, bus_name=None):
         dbus.service.Object.__init__(self, conn, object_path, bus_name)
@@ -72,6 +76,7 @@ class GDMBackground(dbus.service.Object):
             raise
 
 if __name__ == '__main__':
+   
     DBusGMainLoop(set_as_default=True)
     bus = dbus.SystemBus()
     name = dbus.service.BusName('xyz.thiggy01.GDMBackground', bus)
