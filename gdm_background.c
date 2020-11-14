@@ -1,3 +1,10 @@
+/*
+* Autor: Thiago Silva
+* Contact: thiagos.dasilva@gmail.com
+* URL: https://github.com/thiggy01/gdm-background
+* ===============================================
+*/
+
 #include <gtk/gtk.h>
 #include <sys/wait.h>
 #include "dbus_client.h"
@@ -41,12 +48,30 @@ error_message_dialog (GError *error)
 	g_error_free(error);
 }
 
+static char
+*get_default_theme ()
+{
+    FILE *piped_output = popen("lsb_release -i | awk '{print $3}'", "r");
+    char distro[12];
+    fgets(distro, 10, piped_output);
+    pclose(piped_output);
+    char *default_theme = malloc(70);
+    if (strcmp(distro, "Ubuntu\n") == 0) {
+	strcpy(default_theme, "/usr/share/gnome-shell/theme/Yaru/gnome-shell-theme.gresource");
+    } else if (strcmp(distro, "Pop\n") == 0) {
+	strcpy(default_theme, "/usr/share/gnome-shell/theme/Pop/gnome-shell-theme.gresource");
+    } else {
+	g_printerr("No default Ubuntu or Pop OS 20.04 or 20.10 gdm theme found");
+	exit(1);
+    }
+    return default_theme;
+}
+
 static void
 on_button_set_clicked (GtkWidget *widget, Data *data_struct)
 {
-    // Get the default theme and make a backup if there isn't one.
-    char *default_theme = "/usr/share/gnome-shell/theme/Yaru/gnome-shell-theme.gresource";
-    char *backup_theme = vector_strcat(default_theme, "~", NULL);
+    // Backup the default theme and enable the restore button.
+    char *backup_theme = vector_strcat(get_default_theme(), "~", NULL);
     if (access(backup_theme, F_OK) == -1) {
 	if (set_background_image("backup") == -1) {
 	    fprintf(stderr, "Could not create backup file\n");
@@ -257,7 +282,6 @@ on_drag_data_received (GtkWidget *widget, GdkDragContext *context,
     g_string->str[strcspn(g_string->str, "\r\n")] = '\0';
     g_string->str = replace_word(g_string->str, "%20", " ");
     data_struct->image_file = g_string->str;
-    g_print("%s\n", data_struct->image_file);
 
     /* gtk_image_set_from_file(GTK_IMAGE(widget), data_struct->image_file); */
     GError *error = NULL;
@@ -305,8 +329,7 @@ main(int argc,gchar *argv[])
 
     data->restore_button = gtk_button_new_with_label("Restore");
     gtk_header_bar_pack_start(GTK_HEADER_BAR(header), data->restore_button);
-    if (!access(
-	"/usr/share/gnome-shell/theme/Yaru/gnome-shell-theme.gresource~", F_OK))
+    if (!access(vector_strcat(get_default_theme(), "~", NULL), F_OK))
 	gtk_widget_set_sensitive(data->restore_button, TRUE);
     else
 	gtk_widget_set_sensitive(data->restore_button, FALSE);
