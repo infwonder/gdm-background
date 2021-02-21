@@ -1,5 +1,5 @@
 # gdm-background
-A simple graphical tool made with GTK3 in C to change the GDM3 background image of Ubuntu 20.04
+A simple graphical tool made to change the GDM3 background image of Ubuntu or PopOS 20.04 and 20.10.
 
 ## Warning
 This tool won't work with older versions of Ubuntu. It was made specifically to work with Ubuntu
