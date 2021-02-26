@@ -2,17 +2,34 @@
 A simple graphical tool made to change the GDM3 background image of Ubuntu or PopOS 20.04 and 20.10.
 
 ## Warning
-This tool won't work with older versions of Ubuntu. It was made specifically to work with Ubuntu
-20.04 as it now bundles all configuration files inside a .gresource file. It also won't work if
-your system is set to a custom gdm3 theme. You will have to reset to the default configuration of
-gdm3 before using this tool.
+This tool won't work with older versions of Ubuntu. It was made specifically to work with Ubuntu or
+PopOS 20.04 and 20.10 as it now bundles all configuration files inside a .gresource file.
+
+It also won't work if your system is set to a custom gdm3 theme. You will have to reset to the default
+configuration of gdm3 before using this tool.
+
+And remember, I will not be responsible for any damage that may be caused by the use of this software.
+So, use it at your own risk.
+
+## Download
+You can download a .deb package specific to your operating system by typing one of the commands below:
+
+Ubuntu
+```
+wget github.com/thiggy01/gdm-background/raw/master/debs/gdm-background_1.0_amd64_ubuntu20.04.deb
+wget github.com/thiggy01/gdm-background/raw/master/debs/gdm-background_1.0_amd64_ubuntu20.10.deb
+```
+PopOS
+```
+wget github.com/thiggy01/gdm-background/raw/master/debs/gdm-background_1.0_amd64_popos20.04.deb
+wget github.com/thiggy01/gdm-background/raw/master/debs/gdm-background_1.0_amd64_popos20.10.deb
+
+## Compilation
 
 If you feel comfortable compiling linux programs from source code, you may proceed to next
-section which tells you about the required packages necessary to build the program. And remember,
-I will not be responsible for any damage that may be caused by the use of this software. So, use
-it at your own risk.
+section which tells you about the required packages necessary to build the program.
 
-## Dependencies
+#### Dependencies
 You will need the following packages installed in order to compile gdm-background and use the program:
 
 * `make` - builder
@@ -21,8 +38,7 @@ You will need the following packages installed in order to compile gdm-backgroun
 * `libgtk-3-dev` - gtk3 library
 * `libpolkit-gobject-1-dev` - polkit library
 
-## Installation
-
+### Installation
 After you have all packages mentioned above you may build and install this tool with the following
 commands:
 ```
