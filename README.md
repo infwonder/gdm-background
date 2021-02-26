@@ -23,6 +23,7 @@ PopOS
 ```
 wget github.com/thiggy01/gdm-background/raw/master/debs/gdm-background_1.0_amd64_popos20.04.deb
 wget github.com/thiggy01/gdm-background/raw/master/debs/gdm-background_1.0_amd64_popos20.10.deb
+```
 
 ## Compilation
 
