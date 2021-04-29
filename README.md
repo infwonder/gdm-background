@@ -12,18 +12,8 @@ And remember, I will not be responsible for any damage that may be caused by the
 So, use it at your own risk.
 
 ## Download
-You can download a .deb package specific to your operating system by typing one of the commands below:
 
-Ubuntu
-```
-wget github.com/thiggy01/gdm-background/raw/master/debs/gdm-background_1.0_amd64_ubuntu20.04.deb
-wget github.com/thiggy01/gdm-background/raw/master/debs/gdm-background_1.0_amd64_ubuntu20.10.deb
-```
-PopOS
-```
-wget github.com/thiggy01/gdm-background/raw/master/debs/gdm-background_1.0_amd64_popos20.04.deb
-wget github.com/thiggy01/gdm-background/raw/master/debs/gdm-background_1.0_amd64_popos20.10.deb
-```
+You can download a compiled binary .deb  package in the [package release](https://github.com/thiggy01/gdm-background/releases) page .
 
 ## Compilation
 
